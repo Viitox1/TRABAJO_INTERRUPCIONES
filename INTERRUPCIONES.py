@@ -2,39 +2,45 @@ import random
 import time
 
 
-def generar_num_aleatorio(min_val, max_val):
-    return random.randint(min_val, max_val)
+random.seed(42)
 
 
-def realizar_operacion(oper, tiempo_limite):
-    start = time.time()
-    print(f"Iniciando operación de {oper} durante {tiempo_limite} segundos.")
-    while time.time() - start < tiempo_limite:
-        num1 = generar_num_aleatorio(1, 100)
-        num2 = generar_num_aleatorio(1, 100)
-        resultado = None  
-
-        if oper == "resta":
-            resultado = num1 - num2
-        elif oper == "suma":
-            resultado = num1 + num2
-        elif oper == "multiplicacion":
-            resultado = num1 * num2
-        elif oper == "division":
-            resultado = num1 / num2
-
-        print(f"Números utilizados para {oper}: {num1} y {num2}")
-        
-        if resultado is not None:
-            print(f"Resultado de {oper}: {resultado}")
+def generar_numeros_aleatorios(minimo, maximo):
+    return random.randint(minimo, maximo)
 
 
-tiempo_minimo = 5  
-tiempo_maximo = 15  
+def operacion_numeros(operacion, tiempo_limite):
+    print(f"Iniciando operación de {operacion} durante {tiempo_limite} segundos.")
+    end_time = time.time() + tiempo_limite  
+    while time.time() < end_time:
+        numero1 = generar_numeros_aleatorios(1, 100)
+        numero2 = generar_numeros_aleatorios(1, 100)
+
+        if operacion == "resta":
+            resultado = numero1 - numero2
+        elif operacion == "suma":
+            resultado = numero1 + numero2
+        elif operacion == "multiplicacion":
+            resultado = numero1 * numero2
+        elif operacion == "division":
+            if numero2 == 0:
+                print("No se puede dividir por cero.")
+                continue  
+            resultado = numero1 / numero2
+        else:
+            print(f"Operación no válida: {operacion}")
+            break  
+
+        print(f"Números utilizados para {operacion}: {numero1} y {numero2}")
+        print(f"Resultado de {operacion}: {resultado}")
 
 
-while True:
-    realizar_operacion("resta", random.uniform(tiempo_minimo, tiempo_maximo))
-    realizar_operacion("suma", random.uniform(tiempo_minimo, tiempo_maximo))
-    realizar_operacion("division", random.uniform(tiempo_minimo, tiempo_maximo))
-    realizar_operacion("multiplicacion", random.uniform(tiempo_minimo,tiempo_maximo))
+min_tiempo = 5 
+max_tiempo = 15  
+
+operaciones = ["resta", "suma", "division", "multiplicacion"]
+
+
+for operacion in operaciones:
+    tiempo = random.uniform(min_tiempo, max_tiempo)
+    operacion_numeros(operacion, tiempo)
